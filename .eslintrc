@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "cratebind"
+  ],
+  "rules": {
+    "global-require": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "no-console": "off"
+  }
+}
