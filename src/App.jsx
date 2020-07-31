@@ -34,13 +34,14 @@ const TimerContainer = styled(Flex)`
   justify-content: center;
   align-items: center;
   z-index: 9;
-  border-radius: 80px;
+  border-radius: 50%;
+  background: #fff;
 `;
 
 const SpinnerText = styled(Text)`
   position: absolute;
   font-size: 40px;
-  color: #fff;
+  color: #000;
 `;
 
 const audioContext = new AudioContext();
@@ -121,13 +122,27 @@ const App = () => {
     for (let x = 0; x < waveform.length; x++) {
       const val = channel.max_sample(x);
       ctx.lineTo(x + 0.5, scaleY(val, canvas.height) + 0.5);
+      // console.log(val);
+
+      // if (x > 0) {
+      //   const prev = channel.max_sample(x - 1);
+      //   // console.log('>>', val, beatObj[currentIndex]);
+      //   beatObj[currentIndex] += 1;
+
+      //   if (prev === 0 && val) {
+      //     // console.log('here', currentIndex);
+      //     currentIndex += 1;
+      //   }
+      // }
+      // ^^ this works -- commented out just in case
 
       if (x > 0) {
         const prev = channel.max_sample(x - 1);
         // console.log('>>', val, beatObj[currentIndex]);
         beatObj[currentIndex] += 1;
 
-        if (prev === 0 && val) {
+        // if (prev <= 20 && val >= 50) {
+        if (prev <= 10 && val >= 30) {
           // console.log('here', currentIndex);
           currentIndex += 1;
         }
@@ -202,6 +217,11 @@ const App = () => {
     '6': <PatternSix />,
   };
 
+  const assignPattern = (num) => {
+    clearCanvas();
+    setPattern(num);
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <div>
@@ -210,12 +230,12 @@ const App = () => {
             Pattern {pattern} <Icon name="chevron-down" ml={2} size="14px" />
           </MenuButton>
           <MenuList>
-            <MenuItem onSelect={() => setPattern(1)}>Pattern 1</MenuItem>
-            <MenuItem onSelect={() => setPattern(2)}>Pattern 2</MenuItem>
-            <MenuItem onSelect={() => setPattern(3)}>Pattern 3</MenuItem>
-            <MenuItem onSelect={() => setPattern(4)}>Pattern 4</MenuItem>
-            <MenuItem onSelect={() => setPattern(5)}>Pattern 5</MenuItem>
-            <MenuItem onSelect={() => setPattern(6)}>Pattern 6</MenuItem>
+            <MenuItem onSelect={() => assignPattern(1)}>Pattern 1</MenuItem>
+            <MenuItem onSelect={() => assignPattern(2)}>Pattern 2</MenuItem>
+            <MenuItem onSelect={() => assignPattern(3)}>Pattern 3</MenuItem>
+            <MenuItem onSelect={() => assignPattern(4)}>Pattern 4</MenuItem>
+            <MenuItem onSelect={() => assignPattern(5)}>Pattern 5</MenuItem>
+            <MenuItem onSelect={() => assignPattern(6)}>Pattern 6</MenuItem>
           </MenuList>
         </MenuContainer>
         <Flex width="100%" justifyContent="center">
